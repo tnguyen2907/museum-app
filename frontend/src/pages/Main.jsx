@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import DropDownCheckbox from "../components/DropDownCheckbox";
 
 const Main = () => {
+  const HOST = import.meta.env.VITE_HOST;
+  const PORT = import.meta.env.VITE_PORT;
   // List of attributes to be used for checkboxes
   const checkboxAttributesList = [
     "departments",
@@ -38,7 +40,7 @@ const Main = () => {
   useEffect(() => {
     checkboxAttributesList.map((attribute) => {
       axios
-        .get(`http://localhost:3000/get_unique_${attribute}`)
+        .get(`http://${HOST}:${PORT}/get_unique_${attribute}`)
         .then((response) => {
           setCheckboxAttributes((prev) => {
             return { ...prev, [attribute]: response.data };
@@ -64,7 +66,7 @@ const Main = () => {
   // Fetch objects based on selected attributes and keywords
   const fetchObjects = () => {
     axios
-      .post("http://localhost:3000/query", {
+      .post(`http://${HOST}:${PORT}/query`, {
         departments: checkboxAttributes["selected_departments"],
         cultures: checkboxAttributes["selected_cultures"],
         periods: checkboxAttributes["selected_periods"],
